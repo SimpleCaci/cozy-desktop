@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private security report
+    url: https://github.com/SimpleCaci/cozy-desktop/security/advisories/new
+    about: Report vulnerabilities privately; do not upload backup files.
+  - name: Setup and reset guide
+    url: https://github.com/SimpleCaci/cozy-desktop/blob/main/docs/USAGE.md
+    about: Start here for installation options and restoring your previous appearance.

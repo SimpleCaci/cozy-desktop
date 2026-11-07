@@ -1,0 +1,22 @@
+name: Feature or theme idea
+description: Propose a concrete improvement
+title: 'idea: '
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would this help you do?
+      description: Describe the task or problem, rather than just listing a feature name.
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Suggested approach
+      description: Optional. Include alternatives or a sketch if you have one.
+  - type: textarea
+    id: assets
+    attributes:
+      label: Artwork source and permission
+      description: For theme ideas, link the original creator and reuse license. A Pinterest repost alone is not permission.
