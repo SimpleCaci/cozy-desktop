@@ -10,14 +10,33 @@ Introducing **Cozy Desktop**, an easy way to upgrade your Windows system without
 
 [Install](#install) · [Customize](docs/USAGE.md) · [Reset](#reset) · [FAQ](docs/FAQ.md) · [Roadmap](docs/ROADMAP.md)
 
-| Starter: day | Starter: night |
-| --- | --- |
-| ![Source-drawn day wallpaper](themes/starter/wallpapers/day-landscape.png) | ![Source-drawn night wallpaper](themes/starter/wallpapers/night-landscape.png) |
+## Sunbeam Kitty
 
-These are wallpaper previews, not desktop screenshots. The downloadable preview
-ships **Starter**, drawn from source. The original **Sunbeam Kitty** design remains
-in the repository; its Pinterest reference is still [being traced](docs/ASSET-AUDIT.md)
-and is excluded from release ZIPs.
+The cat theme that started this project: sunshine, moonlight, and matching desktop icons.
+
+| Day | Night |
+| --- | --- |
+| ![Sunbeam Kitty day wallpaper](themes/sunbeam-kitty/wallpapers/day-landscape.png) | ![Sunbeam Kitty night wallpaper](themes/sunbeam-kitty/wallpapers/night-landscape.png) |
+
+| Recycle Bin: empty | Recycle Bin: full | Network | This PC | School |
+| --- | --- | --- | --- | --- |
+| <img src="themes/sunbeam-kitty/icons/recycle-empty.png" alt="Empty cat Recycle Bin" width="100"> | <img src="themes/sunbeam-kitty/icons/recycle-full.png" alt="Full cat Recycle Bin" width="100"> | <img src="themes/sunbeam-kitty/icons/network.png" alt="Cat Network icon" width="100"> | <img src="themes/sunbeam-kitty/icons/this-pc.png" alt="Cat This PC icon" width="100"> | <img src="themes/sunbeam-kitty/icons/school.png" alt="Cat School folder" width="100"> |
+
+These are artwork previews. Sunbeam Kitty is included in the source repository;
+its Pinterest reference is still [being traced](docs/ASSET-AUDIT.md). To select it,
+set `Theme` to `sunbeam-kitty` in `config.json` before installing from source.
+
+The downloadable release ZIP ships the separate source-drawn **Starter** theme
+while the cat artwork's reference permissions remain unresolved.
+
+<details>
+<summary>Starter theme preview (included in release ZIPs)</summary>
+
+| Day | Night |
+| --- | --- |
+| ![Starter day wallpaper](themes/starter/wallpapers/day-landscape.png) | ![Starter night wallpaper](themes/starter/wallpapers/night-landscape.png) |
+
+</details>
 
 ## What changes
 
