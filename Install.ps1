@@ -23,7 +23,7 @@ foreach ($shortcut in $shortcuts) { if (Test-Path -LiteralPath $shortcut) { thro
 if (!$PSCmdlet.ShouldProcess($InstallPath, 'Install files, back up appearance, apply theme and create desktop buttons')) { return }
 & (Join-Path $PSScriptRoot 'scripts\Build.ps1')
 New-Item -ItemType Directory -Path $InstallPath | Out-Null
-foreach ($item in 'src','scripts','themes','bin','docs','config.json','README.md','LICENSE') {
+foreach ($item in 'src','scripts','themes','bin','docs','config.json','README.md','CHANGELOG.md','CONTRIBUTING.md','LICENSE') {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot $item) -Destination $InstallPath -Recurse
 }
 Import-Module (Join-Path $InstallPath 'scripts\CozyDesktop.psm1') -Force
