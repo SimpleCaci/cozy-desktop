@@ -1,0 +1,14 @@
+{
+  "Name": "Sunbeam Kitty",
+  "Description": "A little black cat, paper textures, blue skies and moonlight.",
+  "Wallpapers": {
+    "Day": { "landscape": "wallpapers/day-landscape.png", "portrait": "wallpapers/day-portrait.png" },
+    "Night": { "landscape": "wallpapers/night-landscape.png", "portrait": "wallpapers/night-portrait.png" }
+  },
+  "SystemIcons": {
+    "{645FF040-5081-101B-9F08-00AA002F954E}": { "default": "icons/recycle-empty.ico", "empty": "icons/recycle-empty.ico", "full": "icons/recycle-full.ico" },
+    "{20D04FE0-3AEA-1069-A2D8-08002B30309D}": { "default": "icons/this-pc.ico" },
+    "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}": { "default": "icons/network.ico" }
+  }
+}
+
