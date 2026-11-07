@@ -95,5 +95,3 @@ If installation stops halfway through, use the same Restore command from the ins
 
 
 For the exact backup scope and known limits, read [Backup, reset, and compatibility](SAFETY.md). For a different theme, follow [the theme guide](THEMES.md). If a step fails, see [FAQ and troubleshooting](FAQ.md).
-
-

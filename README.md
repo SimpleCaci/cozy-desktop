@@ -115,5 +115,3 @@ Report vulnerabilities through [Security](SECURITY.md), not a public issue.
 Project code and the source-drawn Starter assets use [MIT](LICENSE). That license
 does not establish permission for Sunbeam Kitty's unresolved reference material.
 This project is not affiliated with Microsoft or Wallpaper Engine.
-
-
