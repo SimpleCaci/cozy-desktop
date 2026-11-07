@@ -17,6 +17,9 @@ No templates or graphics from those projects were copied. Required provenance,
 licensing caveats and test limitations should stay even if they make the text less
 promotional. Do not remove a disclosure merely to make AI assistance less visible.
 
+Use commas, periods, colons or parentheses instead of em dashes, as requested by
+the project owner. Repository validation checks Markdown for this preference.
+
 For wording changes to the author's story, show the original and proposed passage.
 If the meaning would change, ask for the author's wording rather than guessing.
 

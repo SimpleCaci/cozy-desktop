@@ -7,6 +7,7 @@ $checked=0
 $files=@(Get-ChildItem -LiteralPath $root -Recurse -File | Where-Object { $_.FullName -notmatch '\\(\.git|dist|test-results|bin)\\' })
 foreach($file in $files | Where-Object Extension -eq '.md') {
     $body=Get-Content -LiteralPath $file.FullName -Raw
+    if($body -match '\u2014'){throw "Em dash in documentation: $($file.FullName)"}
     foreach($match in [regex]::Matches($body,'\]\(([^)]+)\)')) {
         $target=$match.Groups[1].Value.Trim('<','>')
         if($target -match '^(https?://|#|mailto:)'){continue}

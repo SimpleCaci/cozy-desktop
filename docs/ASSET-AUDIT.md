@@ -1,4 +1,4 @@
-# Asset provenance audit — 2026-11-06
+# Asset provenance audit (2026-11-06)
 
 ## Evidence from the original work
 

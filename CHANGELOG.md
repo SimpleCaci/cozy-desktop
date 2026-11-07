@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0-alpha.1 — 2026-11-06
+## 0.1.0-alpha.1 (2026-11-06)
 
 ### Added
 
@@ -25,7 +25,7 @@
 - Original creator/permission for the Pinterest-derived Sunbeam Kitty references.
 - Executable signing and performance measurements. No benchmarks or stable-release certification are claimed.
 
-## Unreleased — documentation and provenance review, 2026-11-06
+## Unreleased: documentation and provenance review (2026-11-06)
 
 - Replaced the earlier assistant-written introduction with the author's own motivation and first-person wording.
 - Separated installation, backup/reset scope, compatibility and implementation details into dedicated guides.
@@ -35,7 +35,7 @@
 - Expanded restoration checks to cover registry types, unnamed values and original folder metadata attributes: 53 checks pass locally in both PowerShell engines.
 - Included changelog and contribution documents in the installed copy so README links remain usable there.
 
-## Unreleased — initial toolkit, 2026-11-06
+## Unreleased: initial toolkit (2026-11-06)
 
 ### Added
 

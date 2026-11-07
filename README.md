@@ -6,7 +6,7 @@ Windows theme toolkit
 [![Code license: MIT](https://img.shields.io/badge/code-MIT-89bed0?labelColor=23455d)](LICENSE)
 [![Experimental preview](https://img.shields.io/badge/status-experimental-e7c56e?labelColor=23455d)](docs/releases/v0.1.0-alpha.1.md)
 
-Introducing **Cozy Desktop** — an easy way to upgrade your Windows system without having to go through all the technical know-how yourself.
+Introducing **Cozy Desktop**, an easy way to upgrade your Windows system without having to go through all the technical know-how yourself.
 
 [Install](#install) · [Customize](docs/USAGE.md) · [Reset](#reset) · [FAQ](docs/FAQ.md) · [Roadmap](docs/ROADMAP.md)
 

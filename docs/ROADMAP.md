@@ -13,7 +13,7 @@ available maintainer time.
 
 ## Small contributions
 
-- Add distinct source-drawn symbols to the Starter folder icons, while retaining readability at 16–32 pixels.
+- Add distinct source-drawn symbols to the Starter folder icons, while retaining readability at 16 to 32 pixels.
 - Try the setup guide as a first-time user and propose specific wording changes where a step is unclear. [Good first issue](https://github.com/SimpleCaci/cozy-desktop/issues/4)
 - Add troubleshooting entries for reproducible Windows build differences.
 
