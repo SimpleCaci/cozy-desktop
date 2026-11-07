@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — documentation and provenance review, 2026-11-06
+
+- Replaced the earlier assistant-written introduction with the author's own motivation and first-person wording.
+- Separated installation, backup/reset scope, compatibility and implementation details into dedicated guides.
+- Clarified that installation copies bundled assets and reset restores recorded pre-install values rather than factory defaults.
+- Documented resource use without making unmeasured performance claims.
+- Corrected artwork credits: Pinterest-based references remain unverified; no exact online source match was confirmed.
+- Expanded restoration checks to cover registry types, unnamed values and original folder metadata attributes: 53 checks pass locally in both PowerShell engines.
+- Included changelog and contribution documents in the installed copy so README links remain usable there.
+
 ## Unreleased — initial toolkit, 2026-11-06
 
 ### Added
