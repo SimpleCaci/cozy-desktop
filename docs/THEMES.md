@@ -7,6 +7,14 @@
 5. Set `Theme` in the root `config.json` to your folder name. Folder names may contain letters, digits, underscores and hyphens. Set different integer DayStartHour/NightStartHour values from 0 to 23. Overnight day ranges are supported.
 6. Run `tests/Test.ps1` and preview `Install.ps1 -WhatIf`, then install. Restore an existing installation before testing a replacement.
 
-All asset paths must stay within the theme folder. The default folder icon command looks for `icons/<name>.ico`. The launcher currently uses the bundled Sunbeam Kitty button artwork; change `Build.ps1` and the shortcut icon line in `Install.ps1` if your theme needs a different button.
+All asset paths must stay within the theme folder; symbolic links and junctions
+inside it are rejected. The folder icon command looks for `icons/<name>.ico`.
+Both the launcher build and desktop shortcuts use `icons/day-night-toggle.ico`
+from the selected theme, so include that file.
+
+`starter` is a complete source-drawn example and the theme included in release
+ZIPs. `sunbeam-kitty` is retained in the source repository with an unresolved
+reference history; do not use it as a redistribution example until its permission
+is established. See [notices](../THIRD_PARTY_NOTICES.md).
 
 Keep private data, generated backups and machine-specific paths out of your theme. Include the provenance and license for any assets you contribute. Test new themes on your own PC before recommending them to others.

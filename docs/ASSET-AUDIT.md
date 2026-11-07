@@ -24,6 +24,7 @@ This was a descriptive text/image search, not a comprehensive reverse-image sear
 
 | Asset family | Recorded origin | Status |
 | --- | --- | --- |
+| Starter wallpapers and icons | Geometric drawing in the repository's `New-StarterTheme.ps1` | Source-drawn; no input images; included in preview ZIPs |
 | Four day/night wallpapers | Image generation using earlier image references | Underlying references unverified |
 | Cat-themed category/system icons | Image generation using the earlier theme as reference | Reference chain unverified |
 | Paper-art day/night and black-screen buttons | Recorded image-generation prompts | Generated locally; no uniqueness guarantee |
@@ -31,3 +32,8 @@ This was a descriptive text/image search, not a comprehensive reverse-image sear
 | 17 native cursor roles and previews | Local geometric drawing and binary-export script | Source construction documented |
 
 The first credits file's blanket claim of an original character was stronger than this evidence supports and has been corrected. Blurring or recoloring a reference-derived image would not establish an independent source. A fresh design made without those image references, or verified permission for them, would resolve the undocumented reference chain more directly.
+
+Starter supplies a separate source-drawn option for release packages. Sunbeam
+Kitty is retained in the source repository at the owner's request, with the
+unresolved source/permission work tracked in issue 3. It is not included in the
+packaged preview ZIPs. The existing Git history has not been rewritten.

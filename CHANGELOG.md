@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.1.0-alpha.1 — 2026-11-06
+
+### Added
+
+- Source-drawn Starter theme, with rebuildable wallpapers/icons and preserved geometric cursor source. Release packages exclude the unresolved Sunbeam Kitty art.
+- Versioned ZIP packaging, SHA-256 checksums, extracted-package validation, and a draft preview-release workflow.
+- Read-only CI defaults, pinned Actions, weekly Dependabot updates, documentation/private-path checks and a packaging job.
+- Security reporting, community conduct, contribution/issue/PR templates, code ownership, FAQ, roadmap and release procedure.
+- A lightweight README with the author's motivation preserved, labelled artwork previews, setup/reset instructions, and a source-drawn social-preview image.
+
+### Fixed
+
+- Reject linked theme files/directories after validating their textual paths.
+- Avoid static Recycle Bin class overrides that can interfere with empty/full state selection, while saving removed values for reset.
+- Release the native wallpaper COM object even when monitor inspection fails.
+- Retrieve known-folder paths before checking whether optional folders exist.
+- Build and install button artwork from the configured theme.
+- Preserve license/notices and linked documents in the installed copy.
+
+### Still open
+
+- Full live install/reset coverage on Windows 10/11 and scheduled sleep/resume behavior.
+- Original creator/permission for the Pinterest-derived Sunbeam Kitty references.
+- Executable signing and performance measurements. No benchmarks or stable-release certification are claimed.
+
 ## Unreleased — documentation and provenance review, 2026-11-06
 
 - Replaced the earlier assistant-written introduction with the author's own motivation and first-person wording.

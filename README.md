@@ -1,12 +1,90 @@
-# Cozy Desktop — Windows Theme Toolkit
+# Cozy Desktop
+
+Windows theme toolkit
 
 [![Windows checks](https://github.com/SimpleCaci/cozy-desktop/actions/workflows/windows.yml/badge.svg)](https://github.com/SimpleCaci/cozy-desktop/actions/workflows/windows.yml)
+[![Code license: MIT](https://img.shields.io/badge/code-MIT-89bed0?labelColor=23455d)](LICENSE)
+[![Experimental preview](https://img.shields.io/badge/status-experimental-e7c56e?labelColor=23455d)](docs/releases/v0.1.0-alpha.1.md)
 
 Introducing **Cozy Desktop** — an easy way to upgrade your Windows system without having to go through all the technical know-how yourself.
 
-Some of the features include day/night wallpaper switching, desktop buttons, customizable Windows icons, and more. The bundled theme, **Sunbeam Kitty**, brings together a black cat, paper textures, blue skies, and moonlight.
+[Install](#install) · [Customize](docs/USAGE.md) · [Reset](#reset) · [FAQ](docs/FAQ.md) · [Roadmap](docs/ROADMAP.md)
 
-## Why I Built This
+| Starter: day | Starter: night |
+| --- | --- |
+| ![Source-drawn day wallpaper](themes/starter/wallpapers/day-landscape.png) | ![Source-drawn night wallpaper](themes/starter/wallpapers/night-landscape.png) |
+
+These are wallpaper previews, not desktop screenshots. The downloadable preview
+ships **Starter**, drawn from source. The original **Sunbeam Kitty** design remains
+in the repository; its Pinterest reference is still [being traced](docs/ASSET-AUDIT.md)
+and is excluded from release ZIPs.
+
+## What changes
+
+Use desktop buttons to choose **Day**, **Night**, **Toggle**, or **Auto**. Each
+monitor gets landscape or portrait artwork, and Windows light/dark preferences
+follow the mode. Optional scheduling uses your PC's local clock.
+
+The toolkit also supports empty/full Recycle Bin, Network, This PC, user files and
+Libraries icons; folder icons for supported built-in locations or folders you
+choose; and 17 native cursor roles, including animated busy/working pointers.
+Some Windows views keep their own icons or cache old ones.
+
+The button and its PowerShell process exit after switching. There is no resident
+Cozy Desktop helper. Launching and switching still use CPU/RAM; there are no gaming
+benchmarks or performance-improvement claims.
+
+## Install
+
+**Experimental Windows preview.** Use a normal account on Windows 10/11 with
+Windows PowerShell 5.1 and .NET Framework 4.x. Full live install/reset and
+sleep/resume validation are still [open work](docs/ROADMAP.md).
+
+1. [Download the Starter preview ZIP](https://github.com/SimpleCaci/cozy-desktop/releases/download/v0.1.0-alpha.1/cozy-desktop-0.1.0-alpha.1-windows.zip) and extract the whole folder. Builds are unsigned; do not disable Windows security protections if a policy blocks them.
+2. Open **Windows PowerShell** in that folder, review the scripts and [backup limits](docs/SAFETY.md), then preview the operation:
+
+   ```powershell
+   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -WhatIf
+   ```
+
+3. Install:
+
+   ```powershell
+   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1
+   ```
+
+The installer copies the toolkit and theme to `%LOCALAPPDATA%\CozyDesktop`, saves
+the tracked originals as it changes settings, applies the theme and creates desktop
+buttons. There is no separate import step. It writes current-user registry values
+and folder metadata; it does not require administrator access or download code
+during installation. Keep the installed folder in place.
+
+To include scheduling and built-in folder icons, use this instead of step 3:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -AutoSwitch -FolderIcons
+```
+
+For a different theme or fewer changes, see [installation and customization](docs/USAGE.md).
+GitHub's **Source code** archives contain the full repo and differ from the packaged Starter build.
+
+## Reset
+
+In Windows PowerShell:
+
+```powershell
+$cozy = Join-Path $env:LOCALAPPDATA 'CozyDesktop'
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$cozy\scripts\Reset.ps1"
+```
+
+Reset returns tracked settings to their **pre-install values**, including previous
+customizations. Keep the installed files, `.state` backup and original wallpaper
+files until it succeeds. It is not a factory reset or a full PC backup. Missing
+originals or disconnected monitors can stop reset after earlier steps have run;
+the backup remains for retry. [Exact coverage and recovery steps](docs/SAFETY.md).
+
+<details>
+<summary>Why I built this</summary>
 
 Seeing different desktop aesthetics on subreddits online, and seeing apps such as Wallpaper Engine, inspired me to question whether this was something I could build for myself.
 
@@ -18,72 +96,24 @@ Normally, Windows customization requires you to navigate through multiple settin
 
 I want this repository to feel like an actual personal open-source project that others can learn from, customize, contribute to, and use to transform their Windows desktop.
 
-## What it does
+</details>
 
-| Day | Night |
-| --- | --- |
-| ![Day wallpaper](themes/sunbeam-kitty/wallpapers/day-landscape.png) | ![Night wallpaper](themes/sunbeam-kitty/wallpapers/night-landscape.png) |
+## Themes and contributions
 
-- **Wallpaper controls:** Day, Night, Toggle, and Auto desktop buttons, with landscape or portrait artwork chosen for each monitor.
-- **Windows appearance:** light/dark preferences follow the wallpaper mode. Optional scheduled switching uses local time, with 7 am/7 pm defaults.
-- **System icons:** empty/full Recycle Bin, Network, This PC, user files, and Libraries.
-- **Folders:** optional icons for Desktop, Documents, Downloads, Pictures, Music, Videos, Favorites, and Saved Games, plus a command for individual folders.
-- **Cursors:** 17 native Windows pointer roles, including animated busy and working states.
-- **Reset:** restore the settings recorded before this toolkit changed them. This is not a factory-default Windows reset.
+Starter is included in preview builds. [Sunbeam Kitty day](themes/sunbeam-kitty/wallpapers/day-landscape.png)
+and [night](themes/sunbeam-kitty/wallpapers/night-landscape.png) artwork is retained
+for the original design, with its reference uncertainty recorded. See
+[theme creation](docs/THEMES.md) for custom assets and [notices](THIRD_PARTY_NOTICES.md)
+for the license scope.
 
-Some shell views keep their built-in icons or cache old ones. See [compatibility and restoration limits](docs/SAFETY.md).
+For a small first contribution, try [improving the setup guide](https://github.com/SimpleCaci/cozy-desktop/issues/4).
+Read [Contributing](CONTRIBUTING.md) and [community conduct](CODE_OF_CONDUCT.md).
+Report vulnerabilities through [Security](SECURITY.md), not a public issue.
 
-The artwork was generated using earlier image references, reportedly found on Pinterest. The original reference's creator and permissions remain unverified. Read [the asset audit](docs/ASSET-AUDIT.md) before reusing the artwork.
+[Implementation](docs/IMPLEMENTATION.md) · [Changelog](CHANGELOG.md) · [Release process](docs/RELEASING.md) · [Credits](docs/CREDITS.md)
 
-## Get started
+Project code and the source-drawn Starter assets use [MIT](LICENSE). That license
+does not establish permission for Sunbeam Kitty's unresolved reference material.
+This project is not affiliated with Microsoft or Wallpaper Engine.
 
-Use a normal Windows user account. The toolkit is intended for Windows 10/11 with Windows PowerShell 5.1 and .NET Framework 4.x. Local checks were performed on Windows 11; broader live install/reset validation remains [open work](https://github.com/SimpleCaci/cozy-desktop/issues/1).
 
-**Before running it:** the installer changes current-user registry values, wallpapers, and folder metadata. It saves the tracked originals locally. Review the scripts and [what reset can and cannot restore](docs/SAFETY.md). No administrator terminal is required for the default per-user setup.
-
-1. Choose **Code → Download ZIP** and extract the whole repository.
-2. Open **Windows PowerShell** in the extracted folder and preview:
-
-   ```powershell
-   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1 -WhatIf
-   ```
-
-3. Install the bundled theme:
-
-   ```powershell
-   powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\Install.ps1
-   ```
-
-The installer builds the button program, copies the bundled theme to `%LOCALAPPDATA%\CozyDesktop`, backs up the settings as they are first changed, applies the selected theme, and creates desktop buttons. There is no separate asset-import step.
-
-For automatic switching, built-in folder icons, or a wallpaper-only setup, use [the installation options](docs/USAGE.md). To supply your own assets, follow [the theme guide](docs/THEMES.md) before installing.
-
-## Reset your appearance
-
-In Windows PowerShell:
-
-```powershell
-$cozy = Join-Path $env:LOCALAPPDATA 'CozyDesktop'
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$cozy\scripts\Reset.ps1"
-```
-
-Reset returns tracked settings to their **pre-install values**, which may already include your own customizations. Keep the installed toolkit, its `.state` backup, and your original wallpaper files until reset succeeds. It does not promise complete restoration of every Windows appearance setting. [Read the backup scope and failure behavior](docs/SAFETY.md).
-
-## How it works
-
-The desktop button starts a PowerShell script, waits for it to finish, then exits. With automatic switching enabled, Windows Task Scheduler starts that script at sign-in and at the configured hours. There is no continuously running Cozy Desktop helper, but launching and switching still use CPU and RAM. No RAM, CPU, or gaming-performance benchmarks have been recorded.
-
-Windows exposes these appearance settings in different places: wallpapers through a per-monitor COM interface, shell icons and cursors through current-user registry settings, and folder icons through `desktop.ini`. Keeping those changes reversible means saving each original value before the first write and keeping the backup if reset cannot finish. More detail is in [the implementation notes](docs/IMPLEMENTATION.md).
-
-## Customize or contribute
-
-The documentation should teach people how to use the toolkit, but also explain why certain design decisions were made.
-
-- [Install and customize](docs/USAGE.md)
-- [Create a theme](docs/THEMES.md)
-- [Backup, reset, and compatibility](docs/SAFETY.md)
-- [Implementation and validation](docs/IMPLEMENTATION.md)
-- [Contributing](CONTRIBUTING.md), [changelog](CHANGELOG.md), and [open issues](https://github.com/SimpleCaci/cozy-desktop/issues)
-- [Artwork credits](docs/CREDITS.md) and [source audit](docs/ASSET-AUDIT.md)
-
-Project code is licensed under [MIT](LICENSE). The asset audit records the unresolved reference history; the license does not establish permissions for those references. This project is not affiliated with Microsoft or Wallpaper Engine.

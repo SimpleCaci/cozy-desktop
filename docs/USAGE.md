@@ -2,6 +2,12 @@
 
 ## Install the bundled theme
 
+For the packaged preview, download the ZIP attached to a release, extract all its
+files, and open `START-HERE.md`. It selects Starter and excludes the unresolved
+Sunbeam Kitty artwork. GitHub's automatic source archives retain the full repo;
+its `config.json` currently selects Sunbeam Kitty. To use Starter from source,
+change `Theme` to `starter` before installing. See [asset notices](../THIRD_PARTY_NOTICES.md).
+
 For Windows 10/11 desktop sessions with Windows PowerShell 5.1 and .NET Framework 4.x. Development checks currently run on Windows 11; Windows 10 and managed PCs still need broader testing. Use your normal user account. No administrator terminal is needed.
 
 1. Click **Code → Download ZIP** and extract the **whole folder** somewhere you can find again.
@@ -88,6 +94,6 @@ Backups stay locally in the installed `.state` folder and never belong in Git. R
 If installation stops halfway through, use the same Restore command from the install location printed in the error. Folder and system icons can be cached; reopen Explorer or sign out/in if they do not update immediately. The toolkit does not force-close Explorer.
 
 
-For the exact backup scope and known limits, read [Backup, reset, and compatibility](SAFETY.md). For a different theme, follow [the theme guide](THEMES.md).
+For the exact backup scope and known limits, read [Backup, reset, and compatibility](SAFETY.md). For a different theme, follow [the theme guide](THEMES.md). If a step fails, see [FAQ and troubleshooting](FAQ.md).
 
 

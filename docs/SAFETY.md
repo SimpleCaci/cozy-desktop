@@ -52,6 +52,13 @@ Intended environment: Windows 10/11 desktop sessions, Windows PowerShell 5.1, an
 
 Known-folder paths are requested from Windows rather than assumed to be under `$HOME`. Folder symlinks/junctions and linked `desktop.ini` files are rejected. Redirected folders may still be subject to cloud availability, attributes, permissions or provider behavior. Shell icon overrides can appear differently across Windows versions and views.
 
-The local regression suite currently passes **53 checks in both PowerShell 5.1 and 7**. It tests real disposable registry values and temporary folder metadata, while simulating native wallpaper, cursor and shell-refresh calls. It checks boundary times, repeated switches, first-backup preservation, registry types, exact folder restoration, missing wallpaper paths and disconnected monitors.
+The regression suite runs in both Windows PowerShell 5.1 and PowerShell 7. It
+tests real disposable registry values and temporary folder metadata, while
+simulating native wallpaper, cursor and shell-refresh calls. It checks boundary
+times, repeated switches, first-backup preservation, registry types, exact folder
+restoration, missing wallpaper paths, disconnected monitors and linked asset
+rejection. CI also builds a Starter ZIP and verifies its checksum, extracted
+assets, file allowlist and launcher rebuild. See the Actions run for the results
+for a specific commit.
 
 This does not certify a complete live installation/reset cycle. Real Task Scheduler lifecycle, sleep/resume behavior, all system-icon views and broader Windows 10/11 visual coverage remain in [issue 1](https://github.com/SimpleCaci/cozy-desktop/issues/1) and [issue 2](https://github.com/SimpleCaci/cozy-desktop/issues/2).
