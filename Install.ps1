@@ -44,7 +44,7 @@ Invoke-CozyLocked {
             $link.TargetPath = Join-Path $InstallPath 'bin\CozyDesktop.exe'
             $link.Arguments = $choice
             $link.WorkingDirectory = $InstallPath
-            $link.IconLocation = Join-Path $InstallPath 'themes\sunbeam-kitty\icons\day-night-toggle.ico'
+            $link.IconLocation = Join-Path (Get-CozyTheme).Base 'icons\day-night-toggle.ico'
             $link.Description = "Cozy Desktop: $choice"
             $link.Save()
         }

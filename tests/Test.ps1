@@ -52,6 +52,9 @@ try {
         Check ($errors.Count -eq 0) "Parse $($file.Name)"
     }
     $null = Assert-CozyAssets
+    $starter = Assert-CozyAssets -ThemeName 'starter'
+    Check ($starter.Manifest.Name -eq 'Starter') 'Validate the independently source-drawn release theme'
+    Expect-Failure { Assert-CozyAssets -ThemeName '..\outside' } 'Reject alternate theme name traversal'
     $config = Get-CozyConfig
     foreach ($case in @(@(6,'Night'),@(7,'Day'),@(18,'Day'),@(19,'Night'),@(23,'Night'),@(0,'Night'))) {
         $actual = Resolve-CozyMode 'Auto' $config ([datetime]'2026-11-06 00:00:00').AddHours($case[0])

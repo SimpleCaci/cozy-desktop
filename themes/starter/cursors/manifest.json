@@ -1,0 +1,240 @@
+{
+  "Arrow": {
+    "file": "Arrow.cur",
+    "hotspot32": [
+      2,
+      1
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "Help": {
+    "file": "Help.cur",
+    "hotspot32": [
+      2,
+      1
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "AppStarting": {
+    "file": "AppStarting.ani",
+    "hotspot32": [
+      2,
+      1
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 16
+  },
+  "Wait": {
+    "file": "Wait.ani",
+    "hotspot32": [
+      16,
+      16
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 16
+  },
+  "Crosshair": {
+    "file": "Crosshair.cur",
+    "hotspot32": [
+      16,
+      16
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "IBeam": {
+    "file": "IBeam.cur",
+    "hotspot32": [
+      16,
+      16
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "NWPen": {
+    "file": "NWPen.cur",
+    "hotspot32": [
+      3,
+      29
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "No": {
+    "file": "No.cur",
+    "hotspot32": [
+      16,
+      16
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "SizeNS": {
+    "file": "SizeNS.cur",
+    "hotspot32": [
+      16,
+      16
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "SizeWE": {
+    "file": "SizeWE.cur",
+    "hotspot32": [
+      16,
+      16
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "SizeNWSE": {
+    "file": "SizeNWSE.cur",
+    "hotspot32": [
+      16,
+      16
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "SizeNESW": {
+    "file": "SizeNESW.cur",
+    "hotspot32": [
+      16,
+      16
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "SizeAll": {
+    "file": "SizeAll.cur",
+    "hotspot32": [
+      16,
+      16
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "UpArrow": {
+    "file": "UpArrow.cur",
+    "hotspot32": [
+      16,
+      2
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "Hand": {
+    "file": "Hand.cur",
+    "hotspot32": [
+      13,
+      1
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "Pin": {
+    "file": "Pin.cur",
+    "hotspot32": [
+      2,
+      1
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  },
+  "Person": {
+    "file": "Person.cur",
+    "hotspot32": [
+      2,
+      1
+    ],
+    "sizes": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "frames": 1
+  }
+}

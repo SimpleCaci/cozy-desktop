@@ -32,9 +32,11 @@ function Resolve-CozyMode([string]$Mode, $Config, [datetime]$Now = (Get-Date), [
         default { throw "Unknown mode: $Mode" }
     }
 }
-function Get-CozyTheme {
+function Get-CozyTheme([string]$ThemeName = '') {
     $config = Get-CozyConfig
-    $base = Join-Path $script:Root ('themes\' + $config.Theme)
+    if (!$ThemeName) { $ThemeName = $config.Theme }
+    if ($ThemeName -notmatch '^[a-zA-Z0-9][a-zA-Z0-9_-]*$') { throw 'Invalid theme folder name.' }
+    $base = Join-Path $script:Root ('themes\' + $ThemeName)
     [pscustomobject]@{ Base = $base; Manifest = (Read-Json (Join-Path $base 'theme.json')) }
 }
 function Get-CozyAsset([string]$Base, [string]$Relative) {
@@ -54,8 +56,8 @@ function Get-CozyAsset([string]$Base, [string]$Relative) {
     } while ($current)
     return $path
 }
-function Assert-CozyAssets {
-    $theme = Get-CozyTheme
+function Assert-CozyAssets([string]$ThemeName = '') {
+    $theme = Get-CozyTheme $ThemeName
     foreach ($mode in 'Day','Night') {
         foreach ($orientation in 'landscape','portrait') { $null = Get-CozyAsset $theme.Base $theme.Manifest.Wallpapers.$mode.$orientation }
     }

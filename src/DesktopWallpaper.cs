@@ -23,7 +23,3 @@ namespace KittyDesktop {
    [DllImport("user32.dll",CharSet=CharSet.Unicode,SetLastError=true)] public static extern bool SystemParametersInfo(uint action,uint param,IntPtr data,uint flags); public static int GetPosition(){var d=Create();try{int p;d.GetPosition(out p);return p;}finally{Marshal.ReleaseComObject(d);}} public static void Apply(string id,string path){var d=Create();try{d.SetWallpaper(id,path);}finally{Marshal.ReleaseComObject(d);}} public static void Position(int mode){var d=Create();try{d.SetPosition(mode);}finally{Marshal.ReleaseComObject(d);}} public static void Refresh(){IntPtr result;SendMessageTimeout(new IntPtr(0xffff),0x1a,IntPtr.Zero,"ImmersiveColorSet",2,1000,out result);SHChangeNotify(0x08000000,0,IntPtr.Zero,IntPtr.Zero);}
  }
 }
-
-
-
-
