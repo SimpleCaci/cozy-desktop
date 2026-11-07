@@ -79,7 +79,9 @@ function Save-CozyState($State) {
     New-Item -ItemType Directory -Path $directory -Force | Out-Null
     $temp = $script:StatePath + '.tmp'
     $State | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $temp -Encoding UTF8
-    Move-Item -LiteralPath $temp -Destination $script:StatePath -Force
+    if (Test-Path -LiteralPath $script:StatePath) {
+        [IO.File]::Replace($temp, $script:StatePath, [System.Management.Automation.Language.NullString]::Value)
+    } else { [IO.File]::Move($temp, $script:StatePath) }
 }
 function New-CozyState {
     if (Test-Path -LiteralPath $script:StatePath) { throw 'An installation backup already exists. Restore it before reinstalling.' }
@@ -179,13 +181,15 @@ function Set-CozyFolder([string]$Path, [string]$Icon) {
         $state.Folders += [pscustomobject]@{ Path = $folder.FullName; Attributes = [int]$folder.Attributes; IniExisted = $exists; IniAttributes = $attrs; IniBytes = $bytes }
         Save-CozyState $state
     }
-    $text = if ($exists) { [IO.File]::ReadAllText($ini) } else { '' }
+    $ansi = [Text.Encoding]::GetEncoding([Globalization.CultureInfo]::CurrentCulture.TextInfo.ANSICodePage)
+    $text = if ($exists) { [IO.File]::ReadAllText($ini, $ansi) } else { '' }
+    if ($text -and !$text.EndsWith("`n")) { $text += "`r`n" }
     # Change icon entries only; retain localized names, infotips and other sections.
     $pattern = '(?ims)(^\[\.ShellClassInfo\][^\r\n]*\r?\n)(.*?)(?=^\[|\z)'
     $entry = "IconResource=$iconPath,0`r`n"
     if ([regex]::IsMatch($text, $pattern)) {
         $text = [regex]::Replace($text, $pattern, [Text.RegularExpressions.MatchEvaluator]{ param($m)
-            $body = [regex]::Replace($m.Groups[2].Value, '(?im)^(IconResource|IconFile|IconIndex)=.*(?:\r?\n|$)', '')
+            $body = [regex]::Replace($m.Groups[2].Value, '(?im)^[ \t]*(IconResource|IconFile|IconIndex)[ \t]*=.*(?:\r?\n|$)', '')
             $m.Groups[1].Value + $entry + $body
         })
     } else { $text += "`r`n[.ShellClassInfo]`r`n$entry" }
