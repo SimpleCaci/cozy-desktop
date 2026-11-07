@@ -5,6 +5,7 @@ param(
     [switch]$AutoSwitch,
     [switch]$SkipIcons,
     [switch]$SkipCursors,
+    [switch]$FolderIcons,
     [string]$InstallPath = (Join-Path $env:LOCALAPPDATA 'CozyDesktop')
 )
 $ErrorActionPreference = 'Stop'
@@ -32,6 +33,7 @@ Invoke-CozyLocked {
         Set-CozyTheme $Mode
         if (!$SkipIcons) { Set-CozyIcons }
         if (!$SkipCursors) { Set-CozyCursors }
+        if ($FolderIcons) { Set-CozyKnownFolders }
         $state = Get-CozyState
         $shell = New-Object -ComObject WScript.Shell
         foreach ($choice in 'Toggle','Day','Night','Auto') {

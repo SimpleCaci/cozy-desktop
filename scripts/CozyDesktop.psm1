@@ -251,4 +251,30 @@ function Restore-CozyDesktop {
     Move-Item -LiteralPath $script:StatePath -Destination ($script:StatePath + '.restored-' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
     Write-Output 'Original appearance restored. The installed files and archived backup remain for review.'
 }
+function Get-CozyKnownFolders {
+    Initialize-CozyNative
+    # Ask Windows for redirected/localized locations instead of assuming $HOME paths.
+    $items = @(
+        @('Desktop','B4BFCC3A-DB2C-424C-B029-7FE99A87C641','apps'),
+        @('Documents','FDD39AD0-238F-46AF-ADB4-6C85480369C7','files'),
+        @('Downloads','374DE290-123F-4565-9164-39C4925E467B','downloads'),
+        @('Pictures','33E28130-4E1E-4676-835A-98395C3BC3BB','pictures'),
+        @('Music','4BD8D571-6D19-48D3-BE97-422220080E43','music'),
+        @('Videos','18989B1D-99B5-455B-841C-AB7C74E4DDFC','videos'),
+        @('Favorites','1777F761-68AD-4D8A-87BD-30B759FA33DD','sites'),
+        @('Saved Games','4C5C32FF-BB9D-43B0-BF7D-1D29D085AA9D','games')
+    )
+    foreach ($item in $items) {
+        $path = [KittyDesktop.Native]::KnownFolder($item[1])
+        if ($path -and (Test-Path -LiteralPath $path -PathType Container)) {
+            [pscustomobject]@{ Name = $item[0]; Path = $path; Icon = $item[2] }
+        }
+    }
+}
+function Set-CozyKnownFolders {
+    foreach ($folder in Get-CozyKnownFolders) {
+        Set-CozyFolder $folder.Path $folder.Icon
+        Write-Output "Themed $($folder.Name): $($folder.Path)"
+    }
+}
 Export-ModuleMember -Function *-Cozy*

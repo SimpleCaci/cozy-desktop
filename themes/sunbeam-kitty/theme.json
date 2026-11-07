@@ -8,7 +8,9 @@
   "SystemIcons": {
     "{645FF040-5081-101B-9F08-00AA002F954E}": { "default": "icons/recycle-empty.ico", "empty": "icons/recycle-empty.ico", "full": "icons/recycle-full.ico" },
     "{20D04FE0-3AEA-1069-A2D8-08002B30309D}": { "default": "icons/this-pc.ico" },
-    "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}": { "default": "icons/network.ico" }
+    "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}": { "default": "icons/network.ico" },
+    "{59031A47-3F72-44A7-89C5-5595FE6B30EE}": { "default": "icons/files.ico" },
+    "{031E4825-7B94-4DC3-B131-E946B44C8DD5}": { "default": "icons/archive.ico" }
   }
 }
 
