@@ -5,6 +5,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: windows-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   check:
     runs-on: windows-latest
@@ -16,7 +19,7 @@ jobs:
       run:
         shell: ${{ matrix.shell }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
       - name: Compile real native helper without applying settings
@@ -25,3 +28,19 @@ jobs:
         run: .\scripts\Build.ps1
       - name: Test switching and backup/reset using simulated desktop calls
         run: .\tests\Test.ps1
+      - name: Validate documentation links and repository contents
+        run: .\scripts\Validate-Repository.ps1
+  package:
+    needs: check
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - run: .\scripts\Package.ps1
+      - run: |
+          $zip = Get-ChildItem dist -Filter *.zip | Select-Object -First 1
+          .\tests\Test-Package.ps1 -PackagePath $zip.FullName
