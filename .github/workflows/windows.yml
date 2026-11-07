@@ -1,0 +1,27 @@
+name: Windows checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [powershell, pwsh]
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Compile real native helper without applying settings
+        run: Add-Type -Path .\src\DesktopWallpaper.cs
+      - name: Build desktop button
+        run: .\scripts\Build.ps1
+      - name: Test switching and backup/reset using simulated desktop calls
+        run: .\tests\Test.ps1
