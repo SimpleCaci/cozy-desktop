@@ -71,19 +71,31 @@ try {
     $key = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey($regSub)
     $key.SetValue('Present', 'before', [Microsoft.Win32.RegistryValueKind]::String)
     $key.SetValue('Bytes', [byte[]]@(0,1,255), [Microsoft.Win32.RegistryValueKind]::Binary)
+    $key.SetValue('Number', 42, [Microsoft.Win32.RegistryValueKind]::DWord)
+    $key.SetValue('Large', [long]4294967296, [Microsoft.Win32.RegistryValueKind]::QWord)
+    $key.SetValue('Many', [string[]]@('first','second'), [Microsoft.Win32.RegistryValueKind]::MultiString)
+    $key.SetValue('Expandable', '%USERPROFILE%\original', [Microsoft.Win32.RegistryValueKind]::ExpandString)
+    $key.SetValue('', 'original default', [Microsoft.Win32.RegistryValueKind]::String)
     $key.Dispose()
     $state = Get-CozyState
     Set-CozyRegistry $state $regSub 'Present' 'after'
     Set-CozyRegistry $state $regSub 'Present' 'again'
     Set-CozyRegistry $state $regSub 'Absent' 1 'DWord'
     Set-CozyRegistry $state $regSub 'Bytes' ([byte[]]@(9)) 'Binary'
-    Check ($state.Registry.Count -eq 3) 'Original values are captured once'
+    Set-CozyRegistry $state $regSub 'Number' 7 'DWord'
+    Set-CozyRegistry $state $regSub 'Large' ([long]10) 'QWord'
+    Set-CozyRegistry $state $regSub 'Many' ([string[]]@('changed')) 'MultiString'
+    Set-CozyRegistry $state $regSub 'Expandable' '%TEMP%\changed' 'ExpandString'
+    Set-CozyRegistry $state $regSub '' 'changed default'
+    Check ($state.Registry.Count -eq 8) 'Original values are captured once'
     # Exercise real folder metadata preservation and byte-exact undo.
     $folder = Join-Path $scratch 'Project with spaces'
     New-Item -ItemType Directory -Path $folder | Out-Null
     $ini = Join-Path $folder 'desktop.ini'
     $original = "[.ShellClassInfo]`r`nLocalizedResourceName=My Project`r`nIconResource=old.ico,0`r`n[Other]`r`nKeep=Yes`r`n"
     [IO.File]::WriteAllText($ini, $original, [Text.Encoding]::Unicode)
+    (Get-Item -LiteralPath $ini -Force).Attributes = [IO.FileAttributes]::Hidden -bor [IO.FileAttributes]::System
+    $iniAttributes = [int](Get-Item -LiteralPath $ini -Force).Attributes
     $bytes = [Convert]::ToBase64String([IO.File]::ReadAllBytes($ini))
     $attributes = [int](Get-Item -LiteralPath $folder -Force).Attributes
     Set-CozyFolder $folder 'code'
@@ -131,12 +143,18 @@ try {
     Check ([KittyDesktop.Native]::Fit -eq 2) 'Restore original wallpaper fit'
     Check ([KittyDesktop.Native]::Applied['wide'] -eq '') 'Restore blank original wallpaper'
     Check ([Convert]::ToBase64String([IO.File]::ReadAllBytes($ini)) -eq $bytes) 'Byte-exact desktop.ini restoration'
+    Check ([int](Get-Item -LiteralPath $ini -Force).Attributes -eq $iniAttributes) 'Restore original desktop.ini attributes'
     Check ([int](Get-Item -LiteralPath $folder -Force).Attributes -eq $attributes) 'Restore folder attributes'
     Check (!(Test-Path -LiteralPath (Join-Path $emptyFolder 'desktop.ini'))) 'Remove metadata that did not previously exist'
     $key = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey($regSub)
     Check ($key.GetValue('Present') -eq 'before') 'Restore original registry string'
     Check ($key.GetValueNames() -notcontains 'Absent') 'Remove originally absent registry value'
     Check ([Convert]::ToBase64String($key.GetValue('Bytes')) -eq 'AAH/') 'Restore binary registry data'
+    Check ($key.GetValue('Number') -eq 42 -and $key.GetValueKind('Number') -eq 'DWord') 'Restore DWORD value and type'
+    Check ($key.GetValue('Large') -eq [long]4294967296 -and $key.GetValueKind('Large') -eq 'QWord') 'Restore QWORD without truncation'
+    Check (($key.GetValue('Many') -join '|') -eq 'first|second' -and $key.GetValueKind('Many') -eq 'MultiString') 'Restore multiple registry strings'
+    Check ($key.GetValue('Expandable',$null,[Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames) -eq '%USERPROFILE%\original') 'Restore expandable strings without expanding them in backup'
+    Check ($key.GetValue('') -eq 'original default') 'Restore unnamed registry value'
     $key.Dispose()
     Expect-Failure { Get-CozyState } 'Archive backup only after successful reset'
     New-CozyState
