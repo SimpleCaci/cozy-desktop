@@ -43,6 +43,15 @@ function Get-CozyAsset([string]$Base, [string]$Relative) {
     if (!$path.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase) -or !(Test-Path -LiteralPath $path -PathType Leaf)) {
         throw "Missing asset or path outside theme: $Relative"
     }
+    # A textual prefix check alone does not stop a junction from escaping the theme.
+    $current = $path
+    do {
+        if ([IO.File]::GetAttributes($current) -band [IO.FileAttributes]::ReparsePoint) {
+            throw "Linked theme assets and directories are not supported: $Relative"
+        }
+        if ($current.TrimEnd('\') -eq $prefix.TrimEnd('\')) { break }
+        $current = Split-Path $current -Parent
+    } while ($current)
     return $path
 }
 function Assert-CozyAssets {
@@ -88,7 +97,7 @@ function New-CozyState {
     $state = [pscustomobject]@{ Version = 1; Registry = @(); Folders = @(); Wallpapers = @(); Position = $null; LastMode = ''; TaskName = ''; Shortcuts = @() }
     Save-CozyState $state
 }
-function Set-CozyRegistry($State, [string]$Subkey, [string]$Name, $Value, [string]$Kind = 'String') {
+function Save-CozyRegistryValue($State, [string]$Subkey, [string]$Name) {
     if (!@($State.Registry | Where-Object { $_.Subkey -eq $Subkey -and $_.Name -eq $Name }).Count) {
         $key = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey($Subkey)
         try {
@@ -103,8 +112,16 @@ function Set-CozyRegistry($State, [string]$Subkey, [string]$Name, $Value, [strin
             Save-CozyState $State
         } finally { if ($key) { $key.Dispose() } }
     }
+}
+function Set-CozyRegistry($State, [string]$Subkey, [string]$Name, $Value, [string]$Kind = 'String') {
+    Save-CozyRegistryValue $State $Subkey $Name
     $key = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey($Subkey)
     try { $key.SetValue($Name, $Value, [Microsoft.Win32.RegistryValueKind]$Kind) } finally { $key.Dispose() }
+}
+function Remove-CozyRegistryValue($State, [string]$Subkey, [string]$Name) {
+    Save-CozyRegistryValue $State $Subkey $Name
+    $key = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey($Subkey, $true)
+    if ($key) { try { $key.DeleteValue($Name, $false) } finally { $key.Dispose() } }
 }
 function Set-CozyTheme([string]$Mode) {
     $theme = Assert-CozyAssets
@@ -142,8 +159,15 @@ function Set-CozyTheme([string]$Mode) {
 function Set-CozyIcons {
     $theme = Assert-CozyAssets; $state = Get-CozyState
     foreach ($icon in $theme.Manifest.SystemIcons.PSObject.Properties) {
-        # Both per-user shell locations are needed for desktop and Explorer views.
-        foreach ($prefix in 'Software\Microsoft\Windows\CurrentVersion\Explorer\CLSID','Software\Classes\CLSID') {
+        $prefixes = @('Software\Microsoft\Windows\CurrentVersion\Explorer\CLSID','Software\Classes\CLSID')
+        if ($icon.Name -eq '{645FF040-5081-101B-9F08-00AA002F954E}') {
+            # A static class override can pin the bin to one picture instead of
+            # allowing Explorer to choose its empty/full state. Save and remove it.
+            $classKey = 'Software\Classes\CLSID\' + $icon.Name + '\DefaultIcon'
+            foreach ($name in '','empty','full') { Remove-CozyRegistryValue $state $classKey $name }
+            $prefixes = @('Software\Microsoft\Windows\CurrentVersion\Explorer\CLSID')
+        }
+        foreach ($prefix in $prefixes) {
             foreach ($value in $icon.Value.PSObject.Properties) {
                 $path = Get-CozyAsset $theme.Base $value.Value
                 $name = if ($value.Name -eq 'default') { '' } else { $value.Name }

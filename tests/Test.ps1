@@ -64,6 +64,11 @@ try {
     Check ((Resolve-CozyMode 'Toggle' $config (Get-Date) 'Night') -eq 'Day') 'Toggle night to day'
     Expect-Failure { Get-CozyAsset (Join-Path $root 'themes\sunbeam-kitty') '..\..\LICENSE' } 'Reject theme traversal'
     Expect-Failure { Get-CozyAsset (Join-Path $root 'themes\sunbeam-kitty') 'missing.png' } 'Reject missing assets'
+    $junction = Join-Path $scratch 'linked-icons'
+    New-Item -ItemType Junction -Path $junction -Target (Join-Path $root 'themes\sunbeam-kitty\icons') | Out-Null
+    try {
+        Expect-Failure { Get-CozyAsset $scratch 'linked-icons\blue.ico' } 'Reject theme assets reached through a junction'
+    } finally { [IO.Directory]::Delete($junction) }
     & $module { param($p) $script:StatePath = Join-Path $p 'backup.json' } $scratch
     New-CozyState
     Expect-Failure { New-CozyState } 'Never replace original installation backup'
@@ -87,7 +92,11 @@ try {
     Set-CozyRegistry $state $regSub 'Many' ([string[]]@('changed')) 'MultiString'
     Set-CozyRegistry $state $regSub 'Expandable' '%TEMP%\changed' 'ExpandString'
     Set-CozyRegistry $state $regSub '' 'changed default'
-    Check ($state.Registry.Count -eq 8) 'Original values are captured once'
+    Remove-CozyRegistryValue $state $regSub 'Present'
+    Check ($state.Registry.Count -eq 8) 'Original values are captured once, including removal'
+    $removed = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey($regSub)
+    Check ($removed.GetValueNames() -notcontains 'Present') 'Remove a conflicting value after backing it up'
+    $removed.Dispose()
     # Exercise real folder metadata preservation and byte-exact undo.
     $folder = Join-Path $scratch 'Project with spaces'
     New-Item -ItemType Directory -Path $folder | Out-Null
@@ -116,17 +125,24 @@ try {
     # Stub registry writes ONLY while exercising the theme controller, to avoid
     # touching real light/dark preferences. Save the real function for restoration.
     $realRegistry = & $module { ${function:Set-CozyRegistry} }
+    $realRemove = & $module { ${function:Remove-CozyRegistryValue} }
     & $module {
         $script:Captured = @()
         function script:Set-CozyRegistry {
             param($State,$Subkey,$Name,$Value,$Kind)
             $script:Captured += [pscustomobject]@{ Subkey=$Subkey; Name=$Name; Value=$Value }
         }
+        function script:Remove-CozyRegistryValue {
+            param($State,$Subkey,$Name)
+            $script:Captured += [pscustomobject]@{ Subkey=$Subkey; Name=$Name; Value=$null }
+        }
     }
     Set-CozyIcons
     $captured = & $module { $script:Captured }
     Check (@($captured | Where-Object { $_.Subkey -like '*F02C1A0D*' -and $_.Name -eq '' }).Count -eq 2) 'Network icon in both shell views with actual unnamed default values'
-    Check (@($captured | Where-Object Name -eq 'full').Count -eq 2) 'Both Recycle Bin full icon registrations'
+    Check (@($captured | Where-Object { $_.Name -eq 'full' -and $null -ne $_.Value }).Count -eq 1) 'Recycle Bin state icon is registered in Explorer'
+    Check (@($captured | Where-Object { $_.Subkey -like 'Software\Classes\*645FF040*' -and $null -ne $_.Value }).Count -eq 0) 'Never add a static class override for the Recycle Bin'
+    Check (@($captured | Where-Object { $_.Subkey -like 'Software\Classes\*645FF040*' -and $null -eq $_.Value }).Count -eq 3) 'Remove conflicting bin class values with backup support'
     Set-CozyCursors
     $captured = & $module { $script:Captured }
     Check (@($captured | Where-Object { $_.Subkey -eq 'Control Panel\Cursors' -and $_.Name -eq 'Arrow' }).Count -eq 1) 'Cursor scheme writes role mapping'
@@ -139,6 +155,7 @@ try {
     Check ((Get-CozyState).LastMode -eq 'Day') 'Repeated toggle controller state'
     Check ((Get-CozyState).Position -eq 2) 'Keep original wallpaper fit after repeated toggles'
     & $module { param($fn) Set-Item function:script:Set-CozyRegistry $fn } $realRegistry
+    & $module { param($fn) Set-Item function:script:Remove-CozyRegistryValue $fn } $realRemove
     Restore-CozyDesktop | Out-Null
     Check ([KittyDesktop.Native]::Fit -eq 2) 'Restore original wallpaper fit'
     Check ([KittyDesktop.Native]::Applied['wide'] -eq '') 'Restore blank original wallpaper'
